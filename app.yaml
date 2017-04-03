@@ -1,0 +1,57 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+
+builtins:
+- deferred: on
+- appstats: on
+
+handlers:
+- url: /_ah/queue/deferred
+  script: google.appengine.ext.deferred.deferred.application
+  login: admin
+
+- url: /
+  static_files: static/index.html
+  upload: static/index.html
+
+- url: /admin
+  static_files: static/admin.html
+  upload: static/admin.html
+  secure: always
+  login: admin
+
+- url: /static/js/admin.js
+  static_files: static/js/admin.js
+  upload: static/js/admin.js
+  secure: always
+  login: admin
+
+- url: /favicon\.ico
+  static_files: static/resources/favicon.ico
+  upload: static/resources/favicon\.ico
+
+- url: /static
+  static_dir: static
+
+- url: /notification
+  script: notification.app
+  secure: always
+  login: admin
+
+- url: /config(/.*)?
+  script: notification.app
+  secure: always
+  login: admin
+
+- url: /docs(/.*)?
+  script: docs.app
+  secure: always
+  login: admin
+
+- url: /.*
+  script: landing.app
+
+libraries:
+- name: webapp2
+  version: latest
